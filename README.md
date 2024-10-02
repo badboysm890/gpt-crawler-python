@@ -28,7 +28,7 @@
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/octobotcrawler.git
+git clone https://github.com/badboysm890/octobotcrawler.git
 cd octobotcrawler
 ```
 
