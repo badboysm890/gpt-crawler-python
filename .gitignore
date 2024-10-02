@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Crawler output files
+/app/outputs/
+output.json
+
+# Virtual environment
+venv/
+env/
+.venv/
+.venv.bak/
+
+# Logs
+*.log
+*.out
+*.err
+
+# Local environment variables
+.env
+
+# Docker-related files
+docker-compose.override.yml
+*.env
+
+# Playwright
+playwright/.cache
+playwright/downloads/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+.cache
+nosetests.xml
+coverage/
+
+# PyInstaller
+# Usually these files are written by a python script from a template
+*.manifest
+*.spec
+
+# macOS / Windows related files
+.DS_Store
+Thumbs.db
