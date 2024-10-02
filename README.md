@@ -2,6 +2,41 @@
 
 🚀 **OctoBotCrawler** - A Python alternative to the [**GPT Crawler by Builder.io**](https://github.com/BuilderIO/gpt-crawler)! 🔍🕸️ Built with FastAPI, Redis, and RQ workers, it's designed for scalable web crawling with concurrent page processing! 🐍✨
 
+## Features
+- It outputs the crawled data in JSON format.
+- It supports concurrent crawling of multiple pages.
+- It uses Playwright for headless browser automation.
+
+### Upload Data to OpenAI
+
+Once the crawl generates a file called `output.json` at the root of this project, you can upload it to OpenAI to create your **custom GPT** or **custom assistant**.
+
+#### **Create a Custom GPT** 🧑‍💻
+
+Use this option for UI access to your generated knowledge that you can easily share with others.
+
+1. Go to [ChatGPT](https://chat.openai.com/).
+2. Click your name in the bottom left corner.
+3. Choose **"My GPTs"** in the menu.
+4. Choose **"Create a GPT"**.
+5. Choose **"Configure"**.
+6. Under **"Knowledge"**, choose **"Upload a file"** and upload the `output.json` file generated from the crawl.
+
+⚠️ If you encounter an error about the file size being too large:
+- You can split the file into multiple smaller files using the option `maxFileSize` in the `config.ts` file.
+- You can also use tokenization to reduce the size by adjusting the `maxTokens` option in the `config.ts` file.
+
+![Gif showing how to upload a custom GPT](https://private-user-images.githubusercontent.com/844291/282629831-06e6ad36-e2ba-4c6e-8d5a-bf329140de49.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mjc5MDEwMjgsIm5iZiI6MTcyNzkwMDcyOCwicGF0aCI6Ii84NDQyOTEvMjgyNjI5ODMxLTA2ZTZhZDM2LWUyYmEtNGM2ZS04ZDVhLWJmMzI5MTQwZGU0OS5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMDAyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTAwMlQyMDI1MjhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0yZWIzNGFlMjAyN2U3MDIxYWJhZDdmMDQyMjZkMGU2Mjc5ZWE5ZDIwZTI3MWMyN2FjYjFmMTg4OGVjMmUyYTEwJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.jEfmE-k3ZP9Dp9gsYatOvSMg5wd30Uijg5UiqP2AXuI)
+
+#### **Create a Custom Assistant** 🤖
+
+Use this option for API access to your generated knowledge, which you can integrate into your product.
+
+1. Go to [OpenAI Assistants](https://platform.openai.com/assistants).
+2. Click **"+ Create"**.
+3. Choose **"Upload"** and upload the `output.json` file generated from the crawl.
+
+This will allow you to create an assistant using the knowledge you generated during the crawl!
 
 ## Project Structure
 
