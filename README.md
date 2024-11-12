@@ -1,15 +1,18 @@
+```markdown
 # OctoBotCrawler
 
 🚀 **OctoBotCrawler** - A Python alternative to the [**GPT Crawler by Builder.io**](https://github.com/BuilderIO/gpt-crawler)! 🔍🕸️ Built with FastAPI, Redis, and RQ workers, it's designed for scalable web crawling with concurrent page processing! 🐍✨
 
 ## Features
-- It outputs the crawled data in JSON format.
-- It supports concurrent crawling of multiple pages.
-- It uses Playwright for headless browser automation.
+- **Unique Job Identifiers:** Utilizes UUIDs to ensure each crawl job is uniquely identifiable, preventing output file overwrites.
+- **Filtered Data Retrieval:** Provides an endpoint to retrieve a subset of crawled data based on a list of specific URLs.
+- **Concurrent Crawling:** Supports concurrent crawling of multiple pages for faster data collection.
+- **JSON Output:** Outputs the crawled data in JSON format.
+- **Headless Browser Automation:** Uses Playwright for efficient and reliable headless browser operations.
 
 ### Upload Data to OpenAI
 
-Once the crawl generates a file called `output.json` at the root of this project, you can upload it to OpenAI to create your **custom GPT** or **custom assistant**.
+Once the crawl generates a file called `output.json` in the `app/outputs/` directory, you can upload it to OpenAI to create your **custom GPT** or **custom assistant**.
 
 #### **Create a Custom GPT** 🧑‍💻
 
@@ -22,8 +25,7 @@ Use this option for UI access to your generated knowledge that you can easily sh
 5. Choose **"Configure"**.
 6. Under **"Knowledge"**, choose **"Upload a file"** and upload the `output.json` file generated from the crawl.
 
-
-![Gif showing how to upload a custom GPT](https://private-user-images.githubusercontent.com/844291/282629831-06e6ad36-e2ba-4c6e-8d5a-bf329140de49.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mjc5MDEwMjgsIm5iZiI6MTcyNzkwMDcyOCwicGF0aCI6Ii84NDQyOTEvMjgyNjI5ODMxLTA2ZTZhZDM2LWUyYmEtNGM2ZS04ZDVhLWJmMzI5MTQwZGU0OS5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMDAyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTAwMlQyMDI1MjhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0yZWIzNGFlMjAyN2U3MDIxYWJhZDdmMDQyMjZkMGU2Mjc5ZWE5ZDIwZTI3MWMyN2FjYjFmMTg4OGVjMmUyYTEwJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.jEfmE-k3ZP9Dp9gsYatOvSMg5wd30Uijg5UiqP2AXuI)
+![Gif showing how to upload a custom GPT](https://private-user-images.githubusercontent.com/844291/282630007-22f27fb5-6ca5-4748-9edd-6bcf00b408cf.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzE0NDQ5MzksIm5iZiI6MTczMTQ0NDYzOSwicGF0aCI6Ii84NDQyOTEvMjgyNjMwMDA3LTIyZjI3ZmI1LTZjYTUtNDc0OC05ZWRkLTZiY2YwMGI0MDhjZi5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMTEyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTExMlQyMDUwMzlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iZTgzZDdmZTZjNGY0Yzc2MGUxNjc5ZjM5MTdiYjBjMmExMGYxYjliNDg5YzJjMmI1YjE4ZDlhMzg0ODI4Njk1JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.vf8QSW9hqs4XZtArmXTVtbJxlFphEZ-LHJwLczTANF8)
 
 *Gif credit: [Builder.io](https://github.com/BuilderIO/gpt-crawler)*
 
@@ -42,13 +44,13 @@ This will allow you to create an assistant using the knowledge you generated dur
 ```bash
 .
 ├── Dockerfile                 # Docker configuration for FastAPI and worker
-├── docker-compose.yml          # Docker Compose configuration for all services
+├── docker-compose.yml         # Docker Compose configuration for all services
 ├── app/
 │   ├── main.py                # FastAPI application entry point
 │   ├── worker.py              # RQ worker for processing crawl jobs
-│   ├── gptcrawlercore.py       # Core logic for crawling web pages using Playwright
+│   ├── gptcrawlercore.py      # Core logic for crawling web pages using Playwright
 │   ├── outputs/               # Directory for storing crawl output JSON files
-│   ├── requirements.txt        # Python dependencies
+│   ├── requirements.txt       # Python dependencies
 └── README.md                  # Project documentation
 ```
 
@@ -97,7 +99,7 @@ curl -X POST "http://localhost:8000/crawl?url=https://example.com&max_pages=10"
 
 ```json
 {
-  "job_id": "172789XXXX",
+  "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "status": "queued"
 }
 ```
@@ -106,19 +108,99 @@ curl -X POST "http://localhost:8000/crawl?url=https://example.com&max_pages=10"
 
 Once the job is complete, you can retrieve the results using the `job_id` returned in the `/crawl` request.
 
-To get the output, use the `/get-output/{job_id}` endpoint.
+#### Get Job Status:
+
+To get the status of a crawl job, use the `/status/{job_id}` endpoint.
+
+##### Example Request:
+
+```bash
+curl "http://localhost:8000/status/3fa85f64-5717-4562-b3fc-2c963f66afa6"
+```
+
+##### Example Response:
+
+```json
+{
+  "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "status": "in_progress",
+  "links_found": 50,
+  "pages_crawled": 10,
+  "current_url": "https://example.com/page10",
+  "crawled_urls": [
+    "https://example.com",
+    "https://example.com/about",
+    "... more URLs ..."
+  ],
+  "crawling_urls": [
+    "https://example.com/contact"
+  ],
+  "start_time": 1700000000,
+  "end_time": null,
+  "errors": [
+    {
+      "url": "https://example.com/broken-link",
+      "message": "Timeout while navigating to https://example.com/broken-link (Attempt 3/3)",
+      "timestamp": 1700000100
+    }
+  ]
+}
+```
+
+### Retrieve Filtered Crawl Data
+
+Before downloading the entire JSON output, you can request a subset of the crawled data based on a list of specific URLs using the `/filtered-output/{job_id}` endpoint.
 
 #### Example Request:
 
 ```bash
-curl http://localhost:8000/get-output/172789XXXX
+curl -X POST "http://localhost:8000/filtered-output/3fa85f64-5717-4562-b3fc-2c963f66afa6" \
+-H "Content-Type: application/json" \
+-d '{"urls": ["https://example.com/page1", "https://example.com/page2"]}'
 ```
 
-If the job is complete, you will receive the `output.json` file with the crawled data.
+#### Example Response:
+
+```json
+{
+  "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "filtered_data": [
+    {
+      "title": "Page 1 Title",
+      "url": "https://example.com/page1",
+      "text": "Content of page 1..."
+    },
+    {
+      "title": "Page 2 Title",
+      "url": "https://example.com/page2",
+      "text": "Content of page 2..."
+    }
+  ],
+  "missing_urls": [
+    "https://example.com/page3"
+  ]
+}
+```
+
+**Field Descriptions:**
+- **`filtered_data`**: Contains data for URLs that were found and crawled.
+- **`missing_urls`**: Lists URLs that were requested but not found in the crawl results.
+
+### Download Full Crawl Results
+
+You can download the entire crawl results using the `/get-output/{job_id}` endpoint.
+
+#### Example Request:
+
+```bash
+curl -O "http://localhost:8000/get-output/3fa85f64-5717-4562-b3fc-2c963f66afa6"
+```
+
+If the job is complete, you will receive the `3fa85f64-5717-4562-b3fc-2c963f66afa6.json` file with the crawled data.
 
 ### Error Handling
 
-If the job hasn't finished or if there's an issue retrieving the output, you'll get an appropriate error message, such as:
+If the job hasn't finished or if there's an issue retrieving the output, you'll receive an appropriate error message, such as:
 
 ```json
 {
@@ -148,6 +230,9 @@ If the job hasn't finished or if there's an issue retrieving the output, you'll 
 - **worker.py**: The RQ worker responsible for executing crawl jobs asynchronously.
 - **gptcrawlercore.py**: Contains the core logic for web crawling using Playwright.
 - **outputs/**: Directory where the crawled data (output files) is stored as JSON.
+- **requirements.txt**: Lists the Python dependencies required for the project.
+- **Dockerfile**: Docker configuration for containerizing the FastAPI app and worker.
+- **docker-compose.yml**: Docker Compose configuration for orchestrating the FastAPI app, Redis, and worker services.
 
 ## Customizing the Crawler
 
@@ -159,7 +244,9 @@ You can modify the number of pages to be crawled by adjusting the `max_pages` pa
 
 - **Redis Connection Error**: If you see `redis.exceptions.ConnectionError`, ensure that your FastAPI app is connecting to Redis using the `redis` service name in Docker and not `localhost`.
 - **Permission Issues**: If you encounter permission issues when writing files to the `outputs` directory, ensure the directory has appropriate write permissions (e.g., `chmod -R 777 app/outputs`).
+- **Job ID Not Found**: Ensure that the `job_id` provided in the request matches an existing job. Use the `/status/{job_id}` endpoint to verify job existence.
 
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+```
