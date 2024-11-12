@@ -1,4 +1,4 @@
-```markdown
+
 # OctoBotCrawler
 
 🚀 **OctoBotCrawler** - A Python alternative to the [**GPT Crawler by Builder.io**](https://github.com/BuilderIO/gpt-crawler)! 🔍🕸️ Built with FastAPI, Redis, and RQ workers, it's designed for scalable web crawling with concurrent page processing! 🐍✨
@@ -249,4 +249,3 @@ You can modify the number of pages to be crawled by adjusting the `max_pages` pa
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
-```
