@@ -34,6 +34,20 @@ async def root():
     """
     return {"message": "Hello, world!"}
 
+# health endpoint
+# health endpoint
+@app.get("/health")
+async def health():
+    """
+    Health check endpoint to verify the service is running and Redis is accessible.
+    """
+    try:
+        redis_conn.ping()
+        return {"status": "healthy"}
+    except Exception as e:
+        return {"status": "unhealthy", "error": str(e)}
+
+
 # POST endpoint to submit a new crawl job
 @app.post("/crawl")
 async def crawl(url: str, max_pages: int = Query(10, ge=1)):

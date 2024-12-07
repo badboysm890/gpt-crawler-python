@@ -1,26 +1,82 @@
 version: "3.8"
+
 services:
   redis:
     image: "redis:7.2.4"
     container_name: rediss
-    ports:
-      - "6379:6379"
+    networks:
+      - app-network
+    expose:
+      - "6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--requirepass", "your_secure_password"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   fastapi:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.prod  # Use a production-specific Dockerfile
     container_name: fastapi
-    volumes:
-      - .:/app
+    environment:
+      - ENV=production
+      - REDIS_URL=redis://rediss:6379/0
     ports:
-      - "8000:8000"
+      - "80:8000"
     depends_on:
       - redis
+    networks:
+      - app-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "512M"
+        reservations:
+          cpus: "0.5"
+          memory: "256M"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   worker:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
     container_name: worker
-    volumes:
-      - .:/app
-    command: rq worker --url redis://redis:6379/0
+    environment:
+      - REDIS_URL=redis://rediss:6379/0
+    command: rq worker
     depends_on:
       - redis
+    networks:
+      - app-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "256M"
+        reservations:
+          cpus: "0.25"
+          memory: "128M"
+    healthcheck:
+      test: ["CMD", "rq", "info"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  redis-data:
