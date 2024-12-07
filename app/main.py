@@ -2,6 +2,7 @@
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware  # Import CORSMiddleware
 from redis import Redis
 from rq import Queue
 import os
@@ -12,6 +13,15 @@ import uuid  # For generating unique job IDs
 from typing import List  # Import List for type hinting
 
 app = FastAPI()
+
+# Configure CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 # Redis connection
 redis_conn = Redis(host="redis", port=6379, decode_responses=True)
