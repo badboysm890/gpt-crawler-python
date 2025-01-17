@@ -3,7 +3,7 @@
 import asyncio
 from redis import Redis
 import os
-from app.gptcrawlercore import GPTCrawlerCore
+from gptcrawlercore import GPTCrawlerCore
 import time
 
 # Initialize Redis connection
@@ -47,9 +47,10 @@ def run_crawler(job_id: str, start_url: str, max_pages: int = 10):
 
     # Define output file path using unique job_id
     output_file = os.path.join("app", "outputs", f"{job_id}.json")
+    output_meta_file = os.path.join("app", "outputs", f"{job_id}_meta.json")
 
     # Write the crawling results to output file
-    crawler.write_output(output_file=output_file)
+    crawler.write_output(output_file=output_file, output_file_meta=output_meta_file)
 
     # Update job status to completed and set end_time
     redis_conn.hset(f"job:{job_id}", mapping={

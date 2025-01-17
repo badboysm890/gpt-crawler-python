@@ -7,7 +7,7 @@ from redis import Redis
 from rq import Queue
 import os
 import time
-from app.worker import run_crawler
+from worker import run_crawler
 import json
 import uuid  # For generating unique job IDs
 from typing import List  # Import List for type hinting
@@ -169,7 +169,24 @@ def get_output(job_id: str):
     Returns:
         FileResponse: The JSON file containing crawl results.
     """
-    output_file = f"app/outputs/{job_id}.json"
+    output_file = os.path.join("app", "outputs", f"{job_id}.json")
     if not os.path.exists(output_file):
         raise HTTPException(status_code=404, detail="Output file not found")
     return FileResponse(output_file, media_type='application/json', filename=f"{job_id}.json")
+
+
+@app.get("/get-meta-output/{job_id}")
+def get_output(job_id: str):
+    """
+    Allows downloading the crawl results as a JSON file.
+
+    Args:
+        job_id (str): The unique identifier of the crawl job.
+
+    Returns:
+        FileResponse: The JSON file containing crawl results.
+    """
+    output_file = os.path.join("app", "outputs", f"{job_id}_meta.json")
+    if not os.path.exists(output_file):
+        raise HTTPException(status_code=404, detail="Output file not found")
+    return FileResponse(output_file, media_type='application/json', filename=f"{job_id}_meta.json")

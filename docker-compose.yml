@@ -6,14 +6,16 @@ services:
     container_name: rediss
     networks:
       - app-network
-    expose:
-      - "6379"
+    ports:
+      - "6380:6379"
     volumes:
       - redis-data:/data
-    command: ["redis-server", "--requirepass", "your_secure_password"]
+    command: ["redis-server"]
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
+      start_period: 59s
+      start_interval: 30s
       interval: 30s
       timeout: 10s
       retries: 3
@@ -21,7 +23,7 @@ services:
   fastapi:
     build:
       context: .
-      dockerfile: Dockerfile.prod  # Use a production-specific Dockerfile
+      dockerfile: Dockerfile  # Use a production-specific Dockerfile
     container_name: fastapi
     environment:
       - ENV=production
@@ -46,11 +48,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 59s
+      start_interval: 30s
 
   worker:
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     container_name: worker
     environment:
       - REDIS_URL=redis://rediss:6379/0
@@ -60,6 +64,8 @@ services:
     networks:
       - app-network
     restart: unless-stopped
+    volumes:
+      - ./app/outputs:/app/app/outputs/
     deploy:
       resources:
         limits:

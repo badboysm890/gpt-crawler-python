@@ -33,6 +33,7 @@ class GPTCrawlerCore:
         self.visited: Set[str] = set()
         self.to_visit: List[str] = [self.start_url]
         self.results: List[dict] = []
+        self.contains_preboot_text: List[str] = []
         self.retry_limit = 3  # Number of retries for failed pages
         self.retry_count = {}  # Track retries per URL
         self.sem = asyncio.Semaphore(self.concurrency)  # Semaphore for concurrency control
@@ -259,6 +260,12 @@ class GPTCrawlerCore:
                 title = await page.title()
                 html_content = await self.get_page_html(page, "body")
                 text_content = self.extract_text_from_html(html_content)
+                
+                # Store if contains preboot word
+                pattern = r'\bpre[-\s]?boot\w*\b'
+                if re.search(pattern, text_content, re.IGNORECASE):
+                    self.contains_preboot_text.append(url)
+
                 self.results.append({
                     "title": title,
                     "url": url,
@@ -313,7 +320,7 @@ class GPTCrawlerCore:
             await browser.close()
             print("[INFO] Browser closed.")
 
-    def write_output(self, output_file: str):
+    def write_output(self, output_file: str, output_file_meta : str = None):
         """
         Writes the crawl results to a JSON file.
 
@@ -327,5 +334,12 @@ class GPTCrawlerCore:
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(self.results, f, ensure_ascii=False, indent=2)
             print(f"[INFO] Output written to {output_file}")
+
+            if output_file_meta:
+                output_dir = os.path.dirname(output_file_meta)
+                os.makedirs(output_dir, exist_ok=True)  # Ensure the output directory exists
+                with open(output_file_meta, 'w', encoding='utf-8') as f:
+                    json.dump(self.contains_preboot_text, f, ensure_ascii=False, indent=2)
+                print(f"[INFO] Meta Output written to {output_file_meta}")
         except Exception as e:
             self.record_error(self.start_url, f"Failed to write output file: {e}")
